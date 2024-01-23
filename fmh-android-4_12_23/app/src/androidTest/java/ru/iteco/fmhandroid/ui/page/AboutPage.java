@@ -2,7 +2,6 @@ package ru.iteco.fmhandroid.ui.page;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import androidx.test.espresso.ViewInteraction;
 
@@ -18,4 +17,5 @@ public class AboutPage {
     public static ViewInteraction infoCompany = onView(withId(R.id.about_company_info_label_text_view));
     public static ViewInteraction privacyPolicyValue = onView(withId(R.id.about_privacy_policy_value_text_view));
     public static ViewInteraction termsOfUseValue = onView(withId(R.id.about_terms_of_use_value_text_view));
+
 }

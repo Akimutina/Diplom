@@ -26,9 +26,7 @@ public class MainPage {
 
     // Блок новостей
     public static ViewInteraction titleOfNewsContainer = onView(withText("Новости"));
-    public static ViewInteraction newsContainer = onView(withId(R.id.container_list_news_include_on_fragment_main));
     public static ViewInteraction allNewsButton = onView(withId(R.id.all_news_text_view));
-
-    //public static ViewInteraction newsContainerLayout = onView(withId(R.id.news_item_material_card_view));
+    public static ViewInteraction collapseAllNewsButton = onView(withId(R.id.expand_material_button));
 
 }
