@@ -7,9 +7,10 @@
 
 Но на завершающем этапе тестирования приложение перестало быть пригодным для тестирования (с 21.01.24 нет возможности авторизоваться под валидными данными), что помешало сформировать корректный отчет.
 
-![]()
+![](https://github.com/Akimutina/Diplom/blob/main/screenshot/Allure_1.png)
+![](https://github.com/Akimutina/Diplom/blob/main/screenshot/Allure_2.png)
 
-[Allure Report]()
+[Allure Report](https://github.com/Akimutina/Diplom/blob/main/allure-results.zip)
 
 ## Результаты сравнения времени проверки приложения:
 
