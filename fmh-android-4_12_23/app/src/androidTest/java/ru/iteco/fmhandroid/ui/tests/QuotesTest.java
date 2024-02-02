@@ -17,11 +17,18 @@ import io.qameta.allure.kotlin.Story;
 import ru.iteco.fmhandroid.ui.AppActivity;
 import ru.iteco.fmhandroid.ui.page.MainPage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
+import ru.iteco.fmhandroid.ui.steps.DownloadSteps;
 import ru.iteco.fmhandroid.ui.steps.MainSteps;
 import ru.iteco.fmhandroid.ui.steps.QuotesSteps;
 
 @RunWith(AllureAndroidJUnit4.class)
 public class QuotesTest {
+    DownloadSteps downloadSteps = new DownloadSteps();
+    AuthorizationSteps authorizationSteps = new AuthorizationSteps();
+    MainPage mainPage = new MainPage();
+    MainSteps mainSteps = new MainSteps();
+    QuotesSteps quotesSteps = new QuotesSteps();
+
 
     @Rule
     public ActivityScenarioRule<AppActivity> activityScenarioRule =
@@ -32,21 +39,21 @@ public class QuotesTest {
             String.valueOf(System.currentTimeMillis()));
 
     @Before
-    public void setUp() throws InterruptedException {
-        Thread.sleep(5000);
+    public void setUp() {
+        downloadSteps.appDownload();
         try {
-            MainPage.allNewsButton.check(matches(isDisplayed()));
+            mainPage.allNewsButton.check(matches(isDisplayed()));
         } catch (Exception e) {
-            AuthorizationSteps.validLogIn();
+            authorizationSteps.validLogIn();
         }
-        MainSteps.openQuotesPage();
+        mainSteps.openQuotesPage();
     }
 
     @Test
     @Feature(value = "Тесты по странице с цитатами")
     @Story("Наличие всех элементов страницы")
     public void shouldBeFullContentInQuotesBlock() {
-        QuotesSteps.checkThatQuotesBlockContentIsFull();
+        quotesSteps.checkThatQuotesBlockContentIsFull();
     }
 
     @Test
@@ -55,9 +62,9 @@ public class QuotesTest {
     public void shouldBeDisplayQuote() {
         String quoteTestText = "\"Ну, идеальное устройство мира в моих глазах. Где никто не оценивает, никто не осудит, где говоришь, и тебя слышат, где, если страшно, тебя обнимут и возьмут за руку, а если холодно тебя согреют.” Юля Капис, волонтер";
 
-        QuotesSteps.checkQuote(0);
-        QuotesSteps.descriptionIsDisplay(quoteTestText);
-        QuotesSteps.checkQuote(0);
+        quotesSteps.checkQuote(0);
+        quotesSteps.descriptionIsDisplay(quoteTestText);
+        quotesSteps.checkQuote(0);
     }
 }
 

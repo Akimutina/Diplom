@@ -17,7 +17,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import io.qameta.allure.android.rules.ScreenshotRule;
-
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Feature;
 import io.qameta.allure.kotlin.Story;
@@ -26,6 +25,7 @@ import ru.iteco.fmhandroid.ui.page.MainPage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
 import ru.iteco.fmhandroid.ui.steps.ControlPanelSteps;
 import ru.iteco.fmhandroid.ui.steps.CreateNewsSteps;
+import ru.iteco.fmhandroid.ui.steps.DownloadSteps;
 import ru.iteco.fmhandroid.ui.steps.EditNewsSteps;
 import ru.iteco.fmhandroid.ui.steps.FilterNewsSteps;
 import ru.iteco.fmhandroid.ui.steps.MainSteps;
@@ -33,6 +33,17 @@ import ru.iteco.fmhandroid.ui.steps.NewsSteps;
 
 @RunWith(AllureAndroidJUnit4.class)
 public class AANewsTest {
+
+    DownloadSteps downloadSteps = new DownloadSteps();
+    MainPage mainPage = new MainPage();
+    MainSteps mainSteps = new MainSteps();
+    AuthorizationSteps authorizationSteps = new AuthorizationSteps();
+    NewsSteps newsSteps = new NewsSteps();
+    ControlPanelSteps controlPanelSteps = new ControlPanelSteps();
+    FilterNewsSteps filterNewsSteps = new FilterNewsSteps();
+    CreateNewsSteps createNewsSteps = new CreateNewsSteps();
+    EditNewsSteps editNewsSteps = new EditNewsSteps();
+
 
     @Rule
     public ActivityScenarioRule<AppActivity> activityScenarioRule =
@@ -45,12 +56,12 @@ public class AANewsTest {
     private View decorView;
 
     @Before
-    public void setUp() throws InterruptedException {
-        Thread.sleep(5000);
+    public void setUp() {
+        downloadSteps.appDownload();
         try {
-            MainPage.allNewsButton.check(matches(isDisplayed()));
+            mainPage.allNewsButton.check(matches(isDisplayed()));
         } catch (Exception e) {
-            AuthorizationSteps.validLogIn();
+            authorizationSteps.validLogIn();
         }
         activityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
     }
@@ -59,42 +70,41 @@ public class AANewsTest {
     @Feature(value = "Тесты по разделу Новостей")
     @Story("Переход ко всем новостям с главной страницы")
     public void shouldOpenAllNews() {
-        MainSteps.openAllNews();
+        mainSteps.openAllNews();
     }
 
     @Test
     @Feature(value = "Тесты по разделу Новостей")
     @Story("Развернуть новость на главной странице")
     public void ExpandNewsOnTheMainPage() {
-        NewsSteps.clickOneNewsItem(0);
-    // Проверка???
+        newsSteps.clickOneNewsItem(0);
     }
 
     @Test
     @Feature(value = "Тесты по разделу Новостей")
     @Story("Наличие всех элементов на странице Новости")
-    public void shouldBeFullContentInNewsPage() throws InterruptedException {
-        MainSteps.openNewsPage();
-        NewsSteps.checkThatNewsBlockContentIsFull();
+    public void shouldBeFullContentInNewsPage() {
+        mainSteps.openNewsPage();
+        newsSteps.checkThatNewsBlockContentIsFull();
     }
 
     @Test
     @Feature(value = "Тесты по разделу Новостей")
     @Story("Переход на страницу Панели управления и Наличие всех элементов")
-    public void shouldOpenControlPanelPage() throws InterruptedException {
-        MainSteps.openNewsPage();
-        ControlPanelSteps.openControlPanelPage();
-        ControlPanelSteps.checkThatControlPanelContentIsFull();
+    public void shouldOpenControlPanelPage() {
+        mainSteps.openNewsPage();
+        controlPanelSteps.openControlPanelPage();
+        controlPanelSteps.checkThatControlPanelContentIsFull();
     }
 
     @Test
     @Feature(value = "Тесты по разделу Новостей")
     @Story("Возврат на Главную страницу со страницы Новости")
-    public void shouldOpenMainPageFromNewsPage() throws InterruptedException {
-        MainSteps.openNewsPage();
-        NewsSteps.checkThatNewsBlockContentIsFull();
-        NewsSteps.checkGoBackMainPage();
-        MainSteps.checkThatMainBlockContentIsFull();
+    public void shouldOpenMainPageFromNewsPage() {
+        mainSteps.openNewsPage();
+        newsSteps.checkThatNewsBlockContentIsFull();
+        newsSteps.checkGoBackMainPage();
+        mainSteps.checkThatMainBlockContentIsFull();
     }
 
     // СОЗДАНИЕ НОВОСТИ
@@ -102,66 +112,62 @@ public class AANewsTest {
     @Test
     @Feature(value = "Тесты по разделу Новостей")
     @Story("Переход к созданию новости и Наличие всех элементов")
-    public void shouldOpenCreateNews() throws InterruptedException {
-        MainSteps.openNewsPage();
-        ControlPanelSteps.openControlPanelPage();
-        ControlPanelSteps.openCreateNewsButton();
-        Thread.sleep(2000);
-        CreateNewsSteps.checkThatCreateNewsPageContentIsFull();
+    public void shouldOpenCreateNews() {
+        mainSteps.openNewsPage();
+        controlPanelSteps.openControlPanelPage();
+        controlPanelSteps.openCreateNewsButton();
+        createNewsSteps.checkThatCreateNewsPageContentIsFull();
     }
 
     @Test
     @Feature(value = "Тесты по разделу Новостей")
     @Story("Cоздание новости с валидными данными")
-    public void shouldCreateNewsValid() throws InterruptedException {
+    public void shouldCreateNewsValid() {
 
         String publicationDate = getCurrentDate();
         String publicationTime = getCurrentTime();
         String title = "Новость от Aki тест";
         String description = "Описание новости от Aki тест";
 
-        MainSteps.openNewsPage();
-        ControlPanelSteps.openControlPanelPage();
-        ControlPanelSteps.openCreateNewsButton();
+        mainSteps.openNewsPage();
+        controlPanelSteps.openControlPanelPage();
+        controlPanelSteps.openCreateNewsButton();
 
         //Создание
-        CreateNewsSteps.createNews(randomCategory(), title, publicationDate,
+        createNewsSteps.createNews(randomCategory(), title, publicationDate,
                 publicationTime, description);
-        CreateNewsSteps.clickSaveButton();
-        Thread.sleep(3000);
+        createNewsSteps.clickSaveButton();
 
         //Проверка, что новость создана
-        ControlPanelSteps.checkIfNewsWithTitle(title);
+        controlPanelSteps.checkIfNewsWithTitle(title);
     }
 
     @Test
     @Feature(value = "Тесты по разделу Новостей")
     @Story("Cоздание новости с пустыми данными")
-    public void shouldCreateEmptyNews() throws InterruptedException {
+    public void shouldCreateEmptyNews() {
 
-        MainSteps.openNewsPage();
-        ControlPanelSteps.openControlPanelPage();
-        ControlPanelSteps.openCreateNewsButton();
-        CreateNewsSteps.clickSaveButton();
+        mainSteps.openNewsPage();
+        controlPanelSteps.openControlPanelPage();
+        controlPanelSteps.openCreateNewsButton();
+        createNewsSteps.clickSaveButton();
 
         //Проверка сообщения
-        CreateNewsSteps.checkToastMessageText("Заполните пустые поля", decorView);
+        createNewsSteps.checkToastMessageText("Заполните пустые поля", decorView);
     }
 
     @Test
     @Feature(value = "Тесты по разделу Новостей")
     @Story("Отменить создание новости")
-    public void shouldCancelCreateNews() throws InterruptedException {
-        MainSteps.openNewsPage();
-        ControlPanelSteps.openControlPanelPage();
-        ControlPanelSteps.openCreateNewsButton();
-        //Thread.sleep(3000);
+    public void shouldCancelCreateNews() {
+        mainSteps.openNewsPage();
+        controlPanelSteps.openControlPanelPage();
+        controlPanelSteps.openCreateNewsButton();
 
         //Отмена
-        CreateNewsSteps.clickCancelButton();
-        CreateNewsSteps.clickOKButton();
-        Thread.sleep(3000);
-        ControlPanelSteps.checkThatControlPanelContentIsFull();
+        createNewsSteps.clickCancelButton();
+        createNewsSteps.clickOKButton();
+        controlPanelSteps.checkThatControlPanelContentIsFull();
     }
 
     // УДАЛЕНИЕ НОВОСТИ
@@ -169,24 +175,23 @@ public class AANewsTest {
     @Test
     @Feature(value = "Тесты по разделу Новостей")
     @Story("Удаление новости")
-    public void shouldDeleteNews() throws InterruptedException {
+    public void shouldDeleteNews() {
 
         String publicationDate = getCurrentDate();
         String publicationTime = getCurrentTime();
         String title = "Новость от Aki Delete";
         String description = "Описание новости от Aki Delete";
 
-        MainSteps.openNewsPage();
-        ControlPanelSteps.openControlPanelPage();
-        ControlPanelSteps.openCreateNewsButton();
+        mainSteps.openNewsPage();
+        controlPanelSteps.openControlPanelPage();
+        controlPanelSteps.openCreateNewsButton();
 
-        CreateNewsSteps.createNews(randomCategory(), title, publicationDate,
+        createNewsSteps.createNews(randomCategory(), title, publicationDate,
                 publicationTime, description);
-        CreateNewsSteps.clickSaveButton();
-        Thread.sleep(2000);
+        createNewsSteps.clickSaveButton();
 
-        ControlPanelSteps.clickDeleteNews(title);
-        ControlPanelSteps.checkIfNoNewsWithTitle(title);
+        controlPanelSteps.clickDeleteNews(title);
+        controlPanelSteps.checkIfNoNewsWithTitle(title);
     }
 
     // РЕДАКТИРОВАНИЕ НОВОСТИ
@@ -194,7 +199,7 @@ public class AANewsTest {
     @Test
     @Feature(value = "Тесты по разделу Новостей")
     @Story("Редактирование новости")
-    public void shouldEditNews() throws InterruptedException {
+    public void shouldEditNews() {
 
         String publicationDate = getCurrentDate();
         String publicationTime = getCurrentTime();
@@ -203,56 +208,52 @@ public class AANewsTest {
         String newTitle = "Новость от Aki средактирована";
         String newDescription = "Описание новости от Aki средактирована";
 
-        MainSteps.openNewsPage();
-        ControlPanelSteps.openControlPanelPage();
-        ControlPanelSteps.openCreateNewsButton();
-        CreateNewsSteps.createNews(randomCategory(), title, publicationDate,
+        mainSteps.openNewsPage();
+        controlPanelSteps.openControlPanelPage();
+        controlPanelSteps.openCreateNewsButton();
+        createNewsSteps.createNews(randomCategory(), title, publicationDate,
                 publicationTime, description);
-        CreateNewsSteps.clickSaveButton();
-        Thread.sleep(2000);
+        createNewsSteps.clickSaveButton();
 
         //Редактирование
-        ControlPanelSteps.clickEditNews(title);
-        EditNewsSteps.checkThatEditNewsPageContentIsFull();
+        controlPanelSteps.clickEditNews(title);
+        editNewsSteps.checkThatEditNewsPageContentIsFull();
 
-        EditNewsSteps.EditNewsFields(randomCategory(), newTitle, publicationDate,
+        editNewsSteps.EditNewsFields(randomCategory(), newTitle, publicationDate,
                 publicationTime, newDescription);
-        EditNewsSteps.changeStatus();
-        EditNewsSteps.clickSaveButton();
-        Thread.sleep(3000);
+        editNewsSteps.changeStatus();
+        editNewsSteps.clickSaveButton();
 
         //Проверка по заголовку
-        ControlPanelSteps.checkIfNewsWithTitle(newTitle);
+        controlPanelSteps.checkIfNewsWithTitle(newTitle);
     }
 
     @Test
     @Feature(value = "Тесты по разделу Новостей")
     @Story("Отмена редактирования новости")
-    public void shouldCancelEditNews() throws InterruptedException {
+    public void shouldCancelEditNews() {
 
         String publicationDate = getCurrentDate();
         String publicationTime = getCurrentTime();
         String title = "Новость 2";
         String description = "Описание новости 2";
 
-        MainSteps.openNewsPage();
-        ControlPanelSteps.openControlPanelPage();
-        ControlPanelSteps.openCreateNewsButton();
-        CreateNewsSteps.createNews(randomCategory(), title, publicationDate,
+        mainSteps.openNewsPage();
+        controlPanelSteps.openControlPanelPage();
+        controlPanelSteps.openCreateNewsButton();
+        createNewsSteps.createNews(randomCategory(), title, publicationDate,
                 publicationTime, description);
-        CreateNewsSteps.clickSaveButton();
-        Thread.sleep(2000);
+        createNewsSteps.clickSaveButton();
 
         //Редактирование
-        ControlPanelSteps.clickEditNews(title);
-        EditNewsSteps.checkThatEditNewsPageContentIsFull();
-        EditNewsSteps.changeStatus();
+        controlPanelSteps.clickEditNews(title);
+        editNewsSteps.checkThatEditNewsPageContentIsFull();
+        editNewsSteps.changeStatus();
 
         //Отмена
-        EditNewsSteps.clickCancelButton();
-        EditNewsSteps.clickOKButton();
-        Thread.sleep(3000);
-        ControlPanelSteps.checkThatControlPanelContentIsFull();
+        editNewsSteps.clickCancelButton();
+        editNewsSteps.clickOKButton();
+        controlPanelSteps.checkThatControlPanelContentIsFull();
     }
 
     // ФИЛЬТРАЦИЯ НОВОСТЕЙ
@@ -260,11 +261,11 @@ public class AANewsTest {
     @Test
     @Feature(value = "Тесты по разделу Новостей")
     @Story("Выход из фильтра без фильтрации новостей")
-    public void testCancelingFiltering() throws InterruptedException {
-        MainSteps.openNewsPage();
-        ControlPanelSteps.openControlPanelPage();
-        ControlPanelSteps.openNewsFilter();
-        FilterNewsSteps.clickCancelButton();
-        ControlPanelSteps.checkThatControlPanelContentIsFull();
+    public void testCancelingFiltering() {
+        mainSteps.openNewsPage();
+        controlPanelSteps.openControlPanelPage();
+        controlPanelSteps.openNewsFilter();
+        filterNewsSteps.clickCancelButton();
+        controlPanelSteps.checkThatControlPanelContentIsFull();
     }
 }

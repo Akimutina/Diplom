@@ -14,22 +14,25 @@ import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.page.QuotesPage;
 
+
 public class QuotesSteps {
 
-    public static void checkThatQuotesBlockContentIsFull() {
+    QuotesPage quotesPage = new QuotesPage();
+
+    public void checkThatQuotesBlockContentIsFull() {
         Allure.step("Проверка, что в блоке с цитатами полный контент");
-        QuotesPage.logo.check(matches(isDisplayed()));
-        QuotesPage.title.check(matches(isDisplayed()));
-        QuotesPage.ourMissionList.check(matches(isDisplayed()));
+        quotesPage.logo.check(matches(isDisplayed()));
+        quotesPage.title.check(matches(isDisplayed()));
+        quotesPage.ourMissionList.check(matches(isDisplayed()));
     }
 
-    public static void checkQuote(int number) {
+    public void checkQuote(int number) {
         Allure.step("Развернуть/свернуть цитату");
-        QuotesPage.missionConstraintLayout.check(matches(isDisplayed()));
-        QuotesPage.missionConstraintLayout.perform(actionOnItemAtPosition(number, click()));
+        quotesPage.missionConstraintLayout.check(matches(isDisplayed()));
+        quotesPage.missionConstraintLayout.perform(actionOnItemAtPosition(number, click()));
     }
 
-    public static void descriptionIsDisplay(String text) {
+    public void descriptionIsDisplay(String text) {
         Allure.step("Отображение дополнительной цитаты");
         onView(allOf(
                 withId(R.id.our_mission_item_description_text_view),
@@ -37,4 +40,5 @@ public class QuotesSteps {
                 isCompletelyDisplayed()))
                 .check(matches(isDisplayed()));
     }
+
 }

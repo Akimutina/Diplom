@@ -15,60 +15,57 @@ import ru.iteco.fmhandroid.ui.page.NewsMainPage;
 
 public class ControlPanelSteps {
 
-    public static void openControlPanelPage() throws InterruptedException {
+    ControlPanelPage controlPanelPage = new ControlPanelPage();
+    NewsMainPage newsMainPage = new NewsMainPage();
+    CreateNewsSteps createNewsSteps = new CreateNewsSteps();
+
+
+    public void openControlPanelPage() {
         Allure.step("Переход в панель управления со страницы Новости");
-        NewsMainPage.controlPanelButton.perform(click());
-        Thread.sleep(2000);
+        newsMainPage.controlPanelButton.perform(click());
     }
 
-    public static void checkThatControlPanelContentIsFull() {
+    public void checkThatControlPanelContentIsFull() {
         Allure.step("Проверка, что в панели управления полный контент");
-        ControlPanelPage.logo.check(matches(isDisplayed()));
-        ControlPanelPage.sortButton.check(matches(isDisplayed()));
-        ControlPanelPage.filterButton.check(matches(isDisplayed()));
-        ControlPanelPage.addNewsButton.check(matches(isDisplayed()));
+        controlPanelPage.logo.check(matches(isDisplayed()));
+        controlPanelPage.sortButton.check(matches(isDisplayed()));
+        controlPanelPage.filterButton.check(matches(isDisplayed()));
+        controlPanelPage.addNewsButton.check(matches(isDisplayed()));
     }
 
-    public static void clickSortNewsButton() throws InterruptedException {
+    public void clickSortNewsButton() {
         Allure.step("Нажать кнопку сортировки");
-        ControlPanelPage.sortButton.perform(click());
-        Thread.sleep(2000);
+        controlPanelPage.sortButton.perform(click());
     }
 
-    public static void openNewsFilter() throws InterruptedException {
+    public void openNewsFilter() {
         Allure.step("Открыть расширенный фильтр");
-        ControlPanelPage.filterButton.perform(click());
-        Thread.sleep(2000);
+        controlPanelPage.filterButton.perform(click());
     }
 
-    public static void openCreateNewsButton() throws InterruptedException {
+    public void openCreateNewsButton() {
         Allure.step("Нажать кнопку создание новости");
-        ControlPanelPage.addNewsButton.perform(click());
-        Thread.sleep(2000);
+        controlPanelPage.addNewsButton.perform(click());
     }
 
-    public static void clickDeleteNews(String newsTitle) throws InterruptedException {
+    public void clickDeleteNews(String newsTitle) {
         Allure.step("Удалить новость с указанным заголовком");
-        ControlPanelPage.deleteNewsButton(newsTitle).perform(click());
-        Thread.sleep(2000);
-        CreateNewsSteps.clickOKButton();
+        controlPanelPage.deleteNewsButton(newsTitle).perform(click());
+        createNewsSteps.clickOKButton();
     }
 
-    public static void clickEditNews(String newsTitle) throws InterruptedException {
+    public void clickEditNews(String newsTitle) {
         Allure.step("Нажать кнопку Корректировка новости");
-        ControlPanelPage.editNewsButton(newsTitle).perform(click());
-        Thread.sleep(2000);
+        controlPanelPage.editNewsButton(newsTitle).perform(click());
     }
 
-    public static void checkIfNewsWithTitle(String titleText) {
+    public void checkIfNewsWithTitle(String titleText) {
         Allure.step("Проверка наличия новости с указанным заголовком");
         onView(allOf(withText(titleText), isDisplayed())).check(matches(isDisplayed()));
     }
 
-    public static void checkIfNoNewsWithTitle(String titleText) {
+    public void checkIfNoNewsWithTitle(String titleText) {
         Allure.step("Проверка, что новости с указанным заголовком нет");
         onView(allOf(withText(titleText), isDisplayed())).check(doesNotExist());
     }
-
-
 }

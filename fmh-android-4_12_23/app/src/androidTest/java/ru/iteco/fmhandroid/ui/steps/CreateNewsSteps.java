@@ -16,46 +16,48 @@ import ru.iteco.fmhandroid.ui.page.CreateNewsPage;
 
 public class CreateNewsSteps {
 
-    public static void checkThatCreateNewsPageContentIsFull() {
+    CreateNewsPage createNewsPage = new CreateNewsPage();
+
+    public void checkThatCreateNewsPageContentIsFull() {
         Allure.step("Проверка, что в окне Создания новости полный контент");
-        CreateNewsPage.titlePage.check(matches(isDisplayed()));
-        CreateNewsPage.categoryText.check(matches(isDisplayed()));
-        CreateNewsPage.titleText.check(matches(isDisplayed()));
-        CreateNewsPage.descriptionText.check(matches(isDisplayed()));
-        CreateNewsPage.publicationDate.check(matches(isDisplayed()));
-        CreateNewsPage.time.check(matches(isDisplayed()));
-        CreateNewsPage.switcher.check(matches(isDisplayed()));
-        CreateNewsPage.saveButton.check(matches(isDisplayed()));
-        CreateNewsPage.cancelButton.check(matches(isDisplayed()));
+        createNewsPage.titlePage.check(matches(isDisplayed()));
+        createNewsPage.categoryText.check(matches(isDisplayed()));
+        createNewsPage.titleText.check(matches(isDisplayed()));
+        createNewsPage.descriptionText.check(matches(isDisplayed()));
+        createNewsPage.publicationDate.check(matches(isDisplayed()));
+        createNewsPage.time.check(matches(isDisplayed()));
+        createNewsPage.switcher.check(matches(isDisplayed()));
+        createNewsPage.saveButton.check(matches(isDisplayed()));
+        createNewsPage.cancelButton.check(matches(isDisplayed()));
     }
 
-    public static void fillInNewsCategoryField(String text) {
+    public void fillInNewsCategoryField(String text) {
         Allure.step("Ввод данных в поле Категория");
-        CreateNewsPage.categoryText.perform(replaceText(text));
+        createNewsPage.categoryText.perform(replaceText(text));
     }
 
-    public static void fillInNewsTitleField(String text) {
+    public void fillInNewsTitleField(String text) {
         Allure.step("Ввод данных в поле Заголовок");
-        CreateNewsPage.titleText.perform(replaceText(text));
+        createNewsPage.titleText.perform(replaceText(text));
     }
 
-    public static void fillInPublicDateField(String text) {
+    public void fillInPublicDateField(String text) {
         Allure.step("Ввод данных в поле Дата публикации");
-        CreateNewsPage.publicationDate.perform(replaceText(text));
+        createNewsPage.publicationDate.perform(replaceText(text));
     }
 
-    public static void fillInTimeField(String text) {
+    public void fillInTimeField(String text) {
         Allure.step("Ввод данных в поле Время");
-        CreateNewsPage.time.perform(replaceText(text));
+        createNewsPage.time.perform(replaceText(text));
     }
 
-    public static void fillInNewsDescriptionField(String text) {
+    public void fillInNewsDescriptionField(String text) {
         Allure.step("Ввод данных в поле Описание");
-        CreateNewsPage.descriptionText.perform(replaceText(text));
+        createNewsPage.descriptionText.perform(replaceText(text));
     }
 
-    public static void createNews(String category, String title, String publicationDate,
-                                  String publicationTime, String description) {
+    public void createNews(String category, String title, String publicationDate,
+                           String publicationTime, String description) {
         Allure.step("Ввод данных для создания новости");
         fillInNewsCategoryField(category);
         fillInNewsTitleField(title);
@@ -64,22 +66,22 @@ public class CreateNewsSteps {
         fillInNewsDescriptionField(description);
     }
 
-    public static void clickSaveButton() {
+    public void clickSaveButton() {
         Allure.step("Нажатие кнопки Сохранить");
-        CreateNewsPage.saveButton.perform(click());
+        createNewsPage.saveButton.perform(click());
     }
 
-    public static void clickCancelButton() {
+    public void clickCancelButton() {
         Allure.step("Нажатие кнопки Отмена");
-        CreateNewsPage.cancelButton.perform(click());
+        createNewsPage.cancelButton.perform(click());
     }
 
-    public static void clickOKButton() {
+    public void clickOKButton() {
         Allure.step("Нажатие кнопки ОК в сообщении");
-        CreateNewsPage.okButtonMessage.perform(click());
+        createNewsPage.okButtonMessage.perform(click());
     }
 
-    public static void checkToastMessageText(String text, View decorView) {
+    public void checkToastMessageText(String text, View decorView) {
         Allure.step("Проверка сообщения");
         onView(withText(text))
                 .inRoot(withDecorView(not(decorView)))

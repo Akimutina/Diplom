@@ -3,6 +3,8 @@ package ru.iteco.fmhandroid.ui.steps;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static ru.iteco.fmhandroid.ui.activity.DataHelper.elementWaiting;
 
 import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.ui.page.MainPage;
@@ -10,44 +12,47 @@ import ru.iteco.fmhandroid.ui.page.MainPage;
 
 public class MainSteps {
 
-    public static void checkThatMainBlockContentIsFull() {
+    MainPage mainPage = new MainPage();
+
+    public void mainScreenLoad() {
+        Allure.step("Загрузка страницы");
+        elementWaiting(withText("все новости"), 5000);
+    }
+
+    public void checkThatMainBlockContentIsFull() {
         Allure.step("Проверка, что в блоке \"Главная\" полный контент");
-        MainPage.profileButton.check(matches(isDisplayed()));
-        MainPage.menuButton.check(matches(isDisplayed()));
-        MainPage.ourMissionButton.check(matches(isDisplayed()));
-        MainPage.titleOfNewsContainer.check(matches(isDisplayed()));
-        MainPage.allNewsButton.check(matches(isDisplayed()));
+        mainPage.profileButton.check(matches(isDisplayed()));
+        mainPage.menuButton.check(matches(isDisplayed()));
+        mainPage.ourMissionButton.check(matches(isDisplayed()));
+        mainPage.titleOfNewsContainer.check(matches(isDisplayed()));
+        mainPage.allNewsButton.check(matches(isDisplayed()));
     }
 
-    public static void openNewsPage() throws InterruptedException {
+    public void openNewsPage() {
         Allure.step("Открытие раздела \"Новости\"");
-        MainPage.menuButton.perform(click());
-        MainPage.newsOfMenu.perform(click());
-        Thread.sleep(3000);
+        mainPage.menuButton.perform(click());
+        mainPage.newsOfMenu.perform(click());
     }
 
-    public static void openAboutPage() throws InterruptedException {
+    public void openAboutPage() {
         Allure.step("Открытие раздела \"О приложении\"");
-        MainPage.menuButton.perform(click());
-        MainPage.aboutOfMenu.perform(click());
-        Thread.sleep(3000);
+        mainPage.menuButton.perform(click());
+        mainPage.aboutOfMenu.perform(click());
     }
 
-    public static void openQuotesPage() throws InterruptedException {
+    public void openQuotesPage() {
         Allure.step("Открытие раздела \"Цитаты\"");
-        MainPage.ourMissionButton.perform(click());
-        Thread.sleep(3000);
+        mainPage.ourMissionButton.perform(click());
     }
 
-    public static void logOut() throws InterruptedException {
+    public void logOut() {
         Allure.step("Выход из профиля");
-        MainPage.profileButton.perform(click());
-        MainPage.logOutButton.perform(click());
-        Thread.sleep(3000);
+        mainPage.profileButton.perform(click());
+        mainPage.logOutButton.perform(click());
     }
 
-    public static void openAllNews() {
+    public void openAllNews() {
         Allure.step("Переход ко всем новостям");
-        MainPage.allNewsButton.perform(click());
+        mainPage.allNewsButton.perform(click());
     }
 }

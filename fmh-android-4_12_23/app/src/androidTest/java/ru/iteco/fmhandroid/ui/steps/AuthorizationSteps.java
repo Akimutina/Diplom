@@ -7,48 +7,57 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
+import static ru.iteco.fmhandroid.ui.activity.DataHelper.elementWaiting;
 
 import android.view.View;
 
 import io.qameta.allure.kotlin.Allure;
+import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.activity.DataHelper;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
 
 public class AuthorizationSteps {
 
-    public static void checkThatAuthorizationBlockContentIsFull() {
-        Allure.step("Наличие всех элементов формы авторизации");
-        AuthorizationPage.title.check(matches(isDisplayed()));
-        AuthorizationPage.loginField.check(matches(isDisplayed()));
-        AuthorizationPage.passwordField.check(matches(isDisplayed()));
-        AuthorizationPage.loginButton.check(matches(isDisplayed()));
+    AuthorizationPage authorizationPage = new AuthorizationPage();
+
+    public void loadAuthorizationPage() {
+        Allure.step("Загрузка страницы авторизации");
+        elementWaiting(withId(R.id.enter_button), 5000);
     }
 
-    public static void validLogIn() throws InterruptedException {
+    public void checkThatAuthorizationBlockContentIsFull() {
+        Allure.step("Наличие всех элементов формы авторизации");
+        authorizationPage.title.check(matches(isDisplayed()));
+        authorizationPage.loginField.check(matches(isDisplayed()));
+        authorizationPage.passwordField.check(matches(isDisplayed()));
+        authorizationPage.loginButton.check(matches(isDisplayed()));
+    }
+
+    public void validLogIn() {
         Allure.step("Авторизация в приложении под валидными данным");
         DataHelper help = new DataHelper();
-        AuthorizationPage.loginField.perform(typeText(help.getValidUser().getLogin()), closeSoftKeyboard());
-        AuthorizationPage.passwordField.perform(typeText(help.getValidUser().getPassword()), closeSoftKeyboard());
-        AuthorizationPage.loginButton.perform(click());
-        Thread.sleep(2000);
+        authorizationPage.loginField.perform(typeText(help.getValidUser().getLogin()), closeSoftKeyboard());
+        authorizationPage.passwordField.perform(typeText(help.getValidUser().getPassword()), closeSoftKeyboard());
+        authorizationPage.loginButton.perform(click());
     }
 
-    public static void notValidLogIn() {
+    public void notValidLogIn() {
         Allure.step("Авторизация в приложении под НЕвалидными данным");
         DataHelper helper = new DataHelper();
-        AuthorizationPage.loginField.perform(typeText(helper.getNotValidUser().getLogin()), closeSoftKeyboard());
-        AuthorizationPage.passwordField.perform(typeText(helper.getNotValidUser().getPassword()), closeSoftKeyboard());
-        AuthorizationPage.loginButton.perform(click());
+        authorizationPage.loginField.perform(typeText(helper.getNotValidUser().getLogin()), closeSoftKeyboard());
+        authorizationPage.passwordField.perform(typeText(helper.getNotValidUser().getPassword()), closeSoftKeyboard());
+        authorizationPage.loginButton.perform(click());
     }
 
-    public static void emptyLogIn() {
+    public void emptyLogIn() {
         Allure.step("Авторизация в приложении с пустыми данным");
-        AuthorizationPage.loginButton.perform(click());
+        authorizationPage.loginButton.perform(click());
     }
 
-    public static void checkToastMessageText(String text, View decorView) {
+    public void checkToastMessageText(String text, View decorView) {
         Allure.step("Проверка сообщения по тексту");
         onView(withText(text))
                 .inRoot(withDecorView(not(decorView)))

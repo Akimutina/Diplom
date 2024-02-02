@@ -10,72 +10,75 @@ import ru.iteco.fmhandroid.ui.page.EditNewsPage;
 
 public class EditNewsSteps {
 
-    public static void checkThatEditNewsPageContentIsFull() {
+    EditNewsPage editNewsPage = new EditNewsPage();
+    EditNewsSteps editNewsSteps = new EditNewsSteps();
+
+    public void checkThatEditNewsPageContentIsFull() {
         Allure.step("Проверка, что в окне Редактирования новости полный контент");
-        EditNewsPage.titlePage.check(matches(isDisplayed()));
-        EditNewsPage.categoryText.check(matches(isDisplayed()));
-        EditNewsPage.titleText.check(matches(isDisplayed()));
-        EditNewsPage.descriptionText.check(matches(isDisplayed()));
-        EditNewsPage.publicationDate.check(matches(isDisplayed()));
-        EditNewsPage.time.check(matches(isDisplayed()));
-        EditNewsPage.switcher.check(matches(isDisplayed()));
-        EditNewsPage.saveButton.check(matches(isDisplayed()));
-        EditNewsPage.cancelButton.check(matches(isDisplayed()));
+        editNewsPage.titlePage.check(matches(isDisplayed()));
+        editNewsPage.categoryText.check(matches(isDisplayed()));
+        editNewsPage.titleText.check(matches(isDisplayed()));
+        editNewsPage.descriptionText.check(matches(isDisplayed()));
+        editNewsPage.publicationDate.check(matches(isDisplayed()));
+        editNewsPage.time.check(matches(isDisplayed()));
+        editNewsPage.switcher.check(matches(isDisplayed()));
+        editNewsPage.saveButton.check(matches(isDisplayed()));
+        editNewsPage.cancelButton.check(matches(isDisplayed()));
     }
 
-    public static void fillInNewsCategoryField(String text) {
+    public void fillInNewsCategoryField(String text) {
         Allure.step("Ввод данных в поле Категория");
-        EditNewsPage.categoryText.perform(replaceText(text));
+        editNewsPage.categoryText.perform(replaceText(text));
     }
 
-    public static void fillInNewsTitleField(String text) {
+    public void fillInNewsTitleField(String text) {
         Allure.step("Ввод данных в поле Заголовок");
-        EditNewsPage.titleText.perform(replaceText(text));
+        editNewsPage.titleText.perform(replaceText(text));
     }
 
-    public static void fillInPublicDateField(String text) {
+    public void fillInPublicDateField(String text) {
         Allure.step("Ввод данных в поле Дата публикации");
-        EditNewsPage.publicationDate.perform(replaceText(text));
+        editNewsPage.publicationDate.perform(replaceText(text));
     }
 
-    public static void fillInTimeField(String text) {
+    public void fillInTimeField(String text) {
         Allure.step("Ввод данных в поле Время");
-        EditNewsPage.time.perform(replaceText(text));
+        editNewsPage.time.perform(replaceText(text));
     }
 
-    public static void fillInNewsDescriptionField(String text) {
+    public void fillInNewsDescriptionField(String text) {
         Allure.step("Ввод данных в поле Описание");
-        EditNewsPage.descriptionText.perform(replaceText(text));
+        editNewsPage.descriptionText.perform(replaceText(text));
     }
 
-    public static void EditNewsFields(String category, String title, String publicationDate,
-                                      String publicationTime, String description) {
+    public void EditNewsFields(String category, String title, String publicationDate,
+                               String publicationTime, String description) {
         Allure.step("Перезаполнение/редактирование данных новости");
-        EditNewsSteps.fillInNewsCategoryField(category);
-        EditNewsSteps.fillInNewsTitleField(title);
-        EditNewsSteps.fillInNewsDescriptionField(description);
-        EditNewsSteps.fillInPublicDateField(publicationDate);
-        EditNewsSteps.fillInTimeField(publicationTime);
+        editNewsSteps.fillInNewsCategoryField(category);
+        editNewsSteps.fillInNewsTitleField(title);
+        editNewsSteps.fillInNewsDescriptionField(description);
+        editNewsSteps.fillInPublicDateField(publicationDate);
+        editNewsSteps.fillInTimeField(publicationTime);
     }
 
-    public static void changeStatus() {
+    public void changeStatus() {
         Allure.step("Поменять статус новости");
-        EditNewsPage.switcher.perform(click());
+        editNewsPage.switcher.perform(click());
     }
 
-    public static void clickSaveButton() {
+    public void clickSaveButton() {
         Allure.step("Нажатие кнопки Сохранить");
-        EditNewsPage.saveButton.perform(click());
+        editNewsPage.saveButton.perform(click());
     }
 
-    public static void clickCancelButton() {
+    public void clickCancelButton() {
         Allure.step("Нажатие кнопки Отмена");
-        EditNewsPage.cancelButton.perform(click());
+        editNewsPage.cancelButton.perform(click());
     }
 
-    public static void clickOKButton() {
+    public void clickOKButton() {
         Allure.step("Нажатие кнопки ОК в сообщении");
-        EditNewsPage.okButtonMessage.perform(click());
+        editNewsPage.okButtonMessage.perform(click());
     }
 }
 

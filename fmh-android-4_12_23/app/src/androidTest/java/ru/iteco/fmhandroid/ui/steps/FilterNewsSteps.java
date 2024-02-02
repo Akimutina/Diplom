@@ -8,75 +8,76 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 
 import io.qameta.allure.kotlin.Allure;
-import ru.iteco.fmhandroid.ui.page.CreateNewsPage;
 import ru.iteco.fmhandroid.ui.page.FilterNewsPage;
 
 public class FilterNewsSteps {
 
-    public static void checkThatFilterNewsBlockContentIsFull() {
+    FilterNewsPage filterNewsPage = new FilterNewsPage();
+
+    public void checkThatFilterNewsBlockContentIsFull() {
         Allure.step("Проверка, что в блоке Фильтрации новостей полный контент");
-        FilterNewsPage.titlePage.check(matches(isDisplayed()));
-        FilterNewsPage.categoryText.check(matches(isDisplayed()));
-        FilterNewsPage.dateStartText.check(matches(isDisplayed()));
-        FilterNewsPage.dateEndText.check(matches(isDisplayed()));
-        FilterNewsPage.filterActive.check(matches(isDisplayed()));
-        FilterNewsPage.filterNotActive.check(matches(isDisplayed()));
-        FilterNewsPage.filterButton.check(matches(isDisplayed()));
-        FilterNewsPage.cancelButton.check(matches(isDisplayed()));
+        filterNewsPage.titlePage.check(matches(isDisplayed()));
+        filterNewsPage.categoryText.check(matches(isDisplayed()));
+        filterNewsPage.dateStartText.check(matches(isDisplayed()));
+        filterNewsPage.dateEndText.check(matches(isDisplayed()));
+        filterNewsPage.filterActive.check(matches(isDisplayed()));
+        filterNewsPage.filterNotActive.check(matches(isDisplayed()));
+        filterNewsPage.filterButton.check(matches(isDisplayed()));
+        filterNewsPage.cancelButton.check(matches(isDisplayed()));
     }
 
-    public static void clickFilterButton() {
+    public void clickFilterButton() {
         Allure.step("Нажатие кнопки Фильтровать");
-        FilterNewsPage.filterButton.perform(click());
+        filterNewsPage.filterButton.perform(click());
     }
 
-    public static void clickCancelButton() {
+    public void clickCancelButton() {
         Allure.step("Нажатие кнопки Отмена");
-        FilterNewsPage.cancelButton.perform(click());
+        filterNewsPage.cancelButton.perform(click());
     }
 
-    public static void clickOKButton() {
+    public void clickOKButton() {
         Allure.step("Нажатие кнопки ОК в сообщении");
-        FilterNewsPage.okButtonMessage.perform(click());
+        filterNewsPage.okButtonMessage.perform(click());
     }
 
-    public static void fillInStartDateField(String startDate) {
+    public void fillInStartDateField(String startDate) {
         Allure.step("Поле начальная дата - ввод данных");
-        FilterNewsPage.dateStartText.perform(replaceText(startDate));
+        filterNewsPage.dateStartText.perform(replaceText(startDate));
     }
 
-    public static void fillInEndDateField(String endDate) {
+    public void fillInEndDateField(String endDate) {
         Allure.step("Поле конечная дата - ввод данных");
-        FilterNewsPage.dateEndText.perform(replaceText(endDate));
+        filterNewsPage.dateEndText.perform(replaceText(endDate));
     }
 
-    public static void clickActiveCheckBox() {
+    public void clickActiveCheckBox() {
         Allure.step("Нажать чекбокс - Active");
-        FilterNewsPage.filterActive.perform(click());
+        filterNewsPage.filterActive.perform(click());
     }
 
-    public static void clickNotActiveCheckBox() {
+    public void clickNotActiveCheckBox() {
         Allure.step("Нажать чекбокс - Not active");
-        FilterNewsPage.filterNotActive.perform(click());
+        filterNewsPage.filterNotActive.perform(click());
     }
 
-    public static void checkBoxStatusActive(boolean checked) {
+    public void checkBoxStatusActive(boolean checked) {
         Allure.step("Проверка нажатия - Active");
 
         if (checked) {
-            FilterNewsPage.filterActive.check(matches(isChecked()));
+            filterNewsPage.filterActive.check(matches(isChecked()));
         } else {
-            FilterNewsPage.filterActive.check(matches(isNotChecked()));
+            filterNewsPage.filterActive.check(matches(isNotChecked()));
         }
     }
 
-    public static void checkBoxStatusNotActive(boolean checked) {
+    public void checkBoxStatusNotActive(boolean checked) {
         Allure.step("Проверка нажатия - Not active");
 
         if (checked) {
-            FilterNewsPage.filterNotActive.check(matches(isChecked()));
+            filterNewsPage.filterNotActive.check(matches(isChecked()));
         } else {
-            FilterNewsPage.filterNotActive.check(matches(isNotChecked()));
+            filterNewsPage.filterNotActive.check(matches(isNotChecked()));
         }
     }
 

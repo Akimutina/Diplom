@@ -3,38 +3,44 @@ package ru.iteco.fmhandroid.ui.steps;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static ru.iteco.fmhandroid.ui.activity.DataHelper.elementWaiting;
 
 import io.qameta.allure.kotlin.Allure;
+import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.page.AboutPage;
 
 public class AboutSteps {
 
-    public static void checkThatAboutBlockContentIsFull() {
+    AboutPage aboutPage = new AboutPage();
+
+    public void checkThatAboutBlockContentIsFull() {
         Allure.step("Проверка, что в блоке \"О приложении\" полный контент");
-        AboutPage.logo.check(matches(isDisplayed()));
-        AboutPage.backButton.check(matches(isDisplayed()));
-        AboutPage.versionTitleField.check(matches(isDisplayed()));
-        AboutPage.versionNumberField.check(matches(isDisplayed()));
-        AboutPage.policyText.check(matches(isDisplayed()));
-        AboutPage.termsOfUseText.check(matches(isDisplayed()));
-        AboutPage.infoCompany.check(matches(isDisplayed()));
-        AboutPage.privacyPolicyValue.check(matches(isDisplayed()));
-        AboutPage.termsOfUseValue.check(matches(isDisplayed()));
+        elementWaiting(withId(R.id.about_company_info_label_text_view), 5000);
+        aboutPage.logo.check(matches(isDisplayed()));
+        aboutPage.backButton.check(matches(isDisplayed()));
+        aboutPage.versionTitleField.check(matches(isDisplayed()));
+        aboutPage.versionNumberField.check(matches(isDisplayed()));
+        aboutPage.policyText.check(matches(isDisplayed()));
+        aboutPage.termsOfUseText.check(matches(isDisplayed()));
+        aboutPage.infoCompany.check(matches(isDisplayed()));
+        aboutPage.privacyPolicyValue.check(matches(isDisplayed()));
+        aboutPage.termsOfUseValue.check(matches(isDisplayed()));
     }
 
-    public static void goBack() {
+    public void goBack() {
         Allure.step("Назад на Главную страницу");
-        AboutPage.backButton.perform(click());
+        aboutPage.backButton.perform(click());
     }
 
-    public static void goToPrivacyPolicy() {
+    public void goToPrivacyPolicy() {
         Allure.step("Переход к политике конфиденциальности");
-        AboutPage.privacyPolicyValue.perform(click());
+        aboutPage.privacyPolicyValue.perform(click());
 
     }
 
-    public static void goToTermsOfUse() {
+    public void goToTermsOfUse() {
         Allure.step("Переход к пользовательскому соглашению");
-        AboutPage.termsOfUseValue.perform(click());
+        aboutPage.termsOfUseValue.perform(click());
     }
 }

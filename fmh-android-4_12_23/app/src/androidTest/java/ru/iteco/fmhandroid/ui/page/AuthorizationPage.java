@@ -10,9 +10,16 @@ import androidx.test.espresso.ViewInteraction;
 import ru.iteco.fmhandroid.R;
 
 public class AuthorizationPage {
-    public static ViewInteraction title = onView(withText("Авторизация"));
-    public static ViewInteraction loginField = onView(withHint("Логин"));
-    public static ViewInteraction passwordField = onView(withHint("Пароль"));
-    public static ViewInteraction loginButton = onView(withId(R.id.enter_button));
+    public ViewInteraction title;
+    public ViewInteraction loginField;
+    public ViewInteraction passwordField;
+    public ViewInteraction loginButton;
+
+    public AuthorizationPage() {
+        title = onView(withText("Авторизация"));
+        loginField = onView(withHint("Логин"));
+        passwordField = onView(withHint("Пароль"));
+        loginButton = onView(withId(R.id.enter_button));
+    }
 
 }

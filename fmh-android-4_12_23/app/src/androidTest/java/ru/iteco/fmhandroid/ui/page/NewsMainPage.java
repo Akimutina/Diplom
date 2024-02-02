@@ -15,15 +15,23 @@ import ru.iteco.fmhandroid.R;
 public class NewsMainPage {
 
     //Страница всех новостей
-    public static ViewInteraction logo = onView(withId(R.id.trademark_image_view));
+    public ViewInteraction logo;
+    public ViewInteraction title;
+    public ViewInteraction sort;
+    public ViewInteraction filter;
+    public ViewInteraction controlPanelButton;
+    public ViewInteraction allNewsBlock;
+    public ViewInteraction childNewsButton;
 
-    public static ViewInteraction title = onView(withText("Новости"));
-    public static ViewInteraction sort = onView(withId(R.id.sort_news_material_button));
-    public static ViewInteraction filter = onView(withId(R.id.filter_news_material_button));
-    public static ViewInteraction controlPanelButton = onView(withId(R.id.edit_news_material_button));
-    public static ViewInteraction allNewsBlock = onView(withId(R.id.all_news_cards_block_constraint_layout));
-
-    public static ViewInteraction childNewsButton = onView(allOf(withId(R.id.news_list_recycler_view),
-            childAtPosition(withClassName(is("android.widget.LinearLayout")),
-                    withId(R.id.all_news_cards_block_constraint_layout), 0)));
+    public NewsMainPage() {
+        logo = onView(withId(R.id.trademark_image_view));
+        title = onView(withText("Новости"));
+        sort = onView(withId(R.id.sort_news_material_button));
+        filter = onView(withId(R.id.filter_news_material_button));
+        controlPanelButton = onView(withId(R.id.edit_news_material_button));
+        allNewsBlock = onView(withId(R.id.all_news_cards_block_constraint_layout));
+        childNewsButton = onView(allOf(withId(R.id.news_list_recycler_view),
+                childAtPosition(withClassName(is("android.widget.LinearLayout")),
+                        withId(R.id.all_news_cards_block_constraint_layout), 0)));
+    }
 }

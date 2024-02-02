@@ -21,11 +21,16 @@ import ru.iteco.fmhandroid.ui.AppActivity;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
 import ru.iteco.fmhandroid.ui.page.MainPage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
+import ru.iteco.fmhandroid.ui.steps.DownloadSteps;
 import ru.iteco.fmhandroid.ui.steps.MainSteps;
 
 @RunWith(AllureAndroidJUnit4.class)
 public class AuthorizationTest {
-
+    DownloadSteps downloadSteps = new DownloadSteps();
+    AuthorizationPage authorizationPage = new AuthorizationPage();
+    AuthorizationSteps authorizationSteps = new AuthorizationSteps();
+    MainPage mainPage = new MainPage();
+    MainSteps mainSteps = new MainSteps();
     @Rule
     public ActivityScenarioRule<AppActivity> activityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
@@ -37,13 +42,15 @@ public class AuthorizationTest {
     private View decorView;
 
     @Before
-    public void setUp() throws InterruptedException {
-        Thread.sleep(5000);
+    public void setUp() {
+        downloadSteps.appDownload();
         try {
-            AuthorizationPage.title.check(matches(isDisplayed()));
+            authorizationSteps.loadAuthorizationPage();
+            authorizationPage.title.check(matches(isDisplayed()));
         } catch (
                 Exception e) {
-            MainSteps.logOut();
+            mainSteps.logOut();
+            authorizationSteps.loadAuthorizationPage();
         }
         activityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
     }
@@ -52,52 +59,51 @@ public class AuthorizationTest {
     @Feature(value = "Тесты по странице Авторизации")
     @Story("Наличие всех элементов формы авторизации")
     public void shouldBeFullContentInAboutBlock() {
-        AuthorizationSteps.checkThatAuthorizationBlockContentIsFull();
+        authorizationSteps.checkThatAuthorizationBlockContentIsFull();
     }
 
     @Test
     @Feature(value = "Тесты по странице Авторизации")
     @Story("Авторизация в приложении под валидными данными")
-    public void shouldLoginByValidUser() throws InterruptedException {
-        AuthorizationSteps.validLogIn();
-        MainSteps.checkThatMainBlockContentIsFull();
+    public void shouldLoginByValidUser() {
+        authorizationSteps.validLogIn();
+        mainSteps.checkThatMainBlockContentIsFull();
     }
 
     @Test
     @Feature(value = "Тесты по странице Авторизации")
     @Story("Авторизация в приложении под НЕ валидными данными")
     public void shouldLoginByNotValidUser() {
-        AuthorizationSteps.notValidLogIn();
+        authorizationSteps.notValidLogIn();
 
         //Проверка сообщения:
-        AuthorizationSteps.checkToastMessageText("Не верный логин или пароль", decorView);
-        //Верное сообщение: "Не верный логин или пароль"
+        authorizationSteps.checkToastMessageText("Неверный логин или пароль", decorView);
+        //Верное сообщение: "Неверный логин или пароль"
         //Фактическое сообщение: "Что-то пошло не так. Попробуйте позднее."
 
-        AuthorizationPage.title.check(matches(isDisplayed()));
-        MainPage.mainLogo.check(matches(not(isDisplayed())));
+        authorizationPage.title.check(matches(isDisplayed()));
+        mainPage.mainLogo.check(matches(not(isDisplayed())));
     }
 
     @Test
     @Feature(value = "Тесты по странице Авторизации")
     @Story("Авторизация в приложении с пустыми данными")
     public void shouldLoginByEmptyUser() {
-        AuthorizationSteps.emptyLogIn();
+        authorizationSteps.emptyLogIn();
 
         //Проверка сообщения:
-        AuthorizationSteps.checkToastMessageText("Логин и пароль не могут быть пустыми", decorView);
+        authorizationSteps.checkToastMessageText("Логин и пароль не могут быть пустыми", decorView);
 
-        AuthorizationPage.title.check(matches(isDisplayed()));
-        MainPage.mainLogo.check(matches(not(isDisplayed())));
+        authorizationPage.title.check(matches(isDisplayed()));
+        mainPage.mainLogo.check(matches(not(isDisplayed())));
     }
 
     @Test
     @Feature(value = "Тесты по странице Авторизациии")
     @Story("Выход из учётной записи")
-    public void shouldLogoff() throws InterruptedException {
-        AuthorizationSteps.validLogIn();
-        MainSteps.logOut();
-        Thread.sleep(3000);
-        AuthorizationSteps.checkThatAuthorizationBlockContentIsFull();
+    public void shouldLogoff() {
+        authorizationSteps.validLogIn();
+        mainSteps.logOut();
+        authorizationSteps.checkThatAuthorizationBlockContentIsFull();
     }
 }

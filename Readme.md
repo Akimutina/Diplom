@@ -24,6 +24,6 @@
 
 ## Формирование отчета AllureReport
 
-1. Выгрузить каталог `/data/data/ru.iteco.fmhandroid/files/allure-results` с тестируемого устройства;
+1. Выгрузить каталог `/data/data/ru.iteco.fmhandroid/files/allure-results` с тестируемого устройства (через через Device File Explorer);
 2. Выполнить команду `allure serve`, находясь на уровень выше allure-results;
 3. Подождать генерации отчета и посмотреть его в открывшемся браузере.
