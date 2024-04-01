@@ -8,7 +8,7 @@
 ![](https://github.com/Akimutina/Diplom/blob/main/screenshot/Allure_1.png)
 ![](https://github.com/Akimutina/Diplom/blob/main/screenshot/Allure_2.png)
 
-[Allure Report](https://github.com/Akimutina/Diplom/blob/main/allure-results.zip)
+[Allure Report](https://github.com/Akimutina/Diplom/blob/main/allure-results.rar)
 
 ## Результаты сравнения времени проверки приложения:
 
